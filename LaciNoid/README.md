@@ -3,6 +3,8 @@
 LaciNois is an Arkanoid clone written in Löve 2D, with **two twists**: there can be any number of horizontal and vertical paddles,
 and a second player can control half of them.
 
+![Screenshot of v0.0.1](./doc/v0.0.1.png)
+
 ## How to run
 
 - Clone this repository, or simply download its content from GitHub.
