@@ -78,9 +78,6 @@ function love.load()
 end
 
 _G.calculateHit = function(ball, paddle, next_pos)
-    -- ball: the ball object containing its position (x, y), speed (vx, vy), and max_speed
-    -- paddle: the paddle object containing its position (x, y), orientation ('horizontal' or 'vertical'), and size
-
     if paddle.orientation == 'horizontal' then
         if ball.speed.y > 0 then
             next_pos.y = paddle.pos.y - ball.size
@@ -88,6 +85,7 @@ _G.calculateHit = function(ball, paddle, next_pos)
             next_pos.y = paddle.pos.y + ball.size + paddle_width
         end
 
+        -- Calculate the x speed of the ball based on where it hit the paddle
         local test_point = ball.pos.x
         local paddle_mid = paddle.pos.x + paddle.size / 2
         local x_speed = 0
@@ -114,6 +112,7 @@ _G.calculateHit = function(ball, paddle, next_pos)
             next_pos.x = paddle.pos.x + ball.size + paddle_width
         end
 
+        -- Calculate the y speed of the ball based on where it hit the paddle
         local test_point = ball.pos.y
         local paddle_mid = paddle.pos.y + paddle.size / 2
         local y_speed = 0
@@ -156,6 +155,7 @@ function update_balls(dt)
         end
         ball.hit = hit
 
+        -- For now just bounce back from the edge of the screen
         if next_pos.x < 0 then
             next_pos.x = 0
             ball.speed.x = -ball.speed.x
@@ -240,10 +240,12 @@ function love.update(dt)
     update_balls(dt)
 
     for _, paddle in ipairs(paddles) do
+        -- If the paddle is horizontal and the left or the right key is pressed
         if (keys.left or keys.right) and paddle.orientation == "horizontal" then
             paddle:move(keys.left and -1 or keys.right and 1)
         end
 
+        -- If the paddle is vertical and the up or the down key is pressed
         if (keys.up or keys.down) and paddle.orientation == "vertical" then
             paddle:move(keys.up and -1 or keys.down and 1)
         end
